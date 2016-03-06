@@ -46,7 +46,10 @@ Template.AdminDashboardView.rendered = ->
 
 Template.AdminDashboardView.helpers
 	hasDocuments: ->
-		AdminCollectionsCount.findOne({collection: Session.get 'admin_collection_name'})?.count > 0
+		if Session.get('admin_collection_name') == 'Users'
+			Meteor.users.find().count() > 0
+		else
+			AdminCollectionsCount.findOne({collection: Session.get 'admin_collection_name'})?.count > 0
 	newPath: ->
 		Router.path 'adminDashboard' + Session.get('admin_collection_name') + 'New'
 
